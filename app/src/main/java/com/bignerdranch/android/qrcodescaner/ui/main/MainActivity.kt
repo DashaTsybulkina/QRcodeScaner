@@ -2,6 +2,7 @@ package com.bignerdranch.android.qrcodescaner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.graphics.green
 import androidx.viewpager.widget.ViewPager
 import com.bignerdranch.android.qrcodescaner.ui.main.MainPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.qrScanMenuId -> {
                     viewPager.currentItem = 0
+
                 }
                 R.id.generateQrId -> {
                     viewPager.currentItem = 1

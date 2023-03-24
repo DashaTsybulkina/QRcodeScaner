@@ -1,6 +1,7 @@
 package com.bignerdranch.android.qrcodescaner.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,8 @@ import kotlinx.android.synthetic.main.single_item_qr_result.view.*
 class ScannedResultListAdapter(
     var dbHelperI: DbHelperI,
     var context: Context,
-    private var listOfScannedResult: MutableList<QrResult>
+    private var listOfScannedResult: MutableList<QrResult>,
+    var status:String
 ) :
     RecyclerView.Adapter<ScannedResultListAdapter.ScannedResultListViewHolder>() {
 
@@ -47,7 +49,10 @@ class ScannedResultListAdapter(
             view.result.text = qrResult.result!!
             view.tvTime.text = qrResult.calendar.toFormattedDisplay()
             setResultTypeIcon(qrResult.resultType)
-            setFavourite(qrResult.favourite)
+            view.favouriteIcon.visibility = View.GONE
+            Log.d("ADAPTER", status)
+            if(status =="All")
+                setFavourite(qrResult.favourite)
             onClicks(qrResult, position)
         }
 
@@ -56,10 +61,12 @@ class ScannedResultListAdapter(
         }
 
         private fun setFavourite(isFavourite: Boolean) {
-            if (isFavourite)
+            if (isFavourite && status == "All")
                 view.favouriteIcon.visibility = View.VISIBLE
-            else
+            else {
                 view.favouriteIcon.visibility = View.GONE
+                Log.d("ADAPTER", "EXIT")
+            }
         }
 
 

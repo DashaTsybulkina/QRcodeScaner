@@ -24,7 +24,6 @@ class ScannedHistoryFragment : Fragment() {
     }
 
     companion object {
-
         private const val ARGUMENT_RESULT_LIST_TYPE = "ArgumentResultType"
 
         fun newInstance(screenType: ResultListType): ScannedHistoryFragment {
@@ -83,22 +82,29 @@ class ScannedHistoryFragment : Fragment() {
 
     private fun showFavouriteResults() {
         val listOfFavouriteResult = dbHelperI.getAllFavouriteQRScannedResult()
-        showResults(listOfFavouriteResult)
+        showFavoriteResults(listOfFavouriteResult)
         mView.layoutHeader.tvHeaderText.text = getString(R.string.favourites_scanned_results)
     }
 
 
     private fun showResults(listOfQrResult: List<QrResult>) {
         if (listOfQrResult.isNotEmpty())
-            initRecyclerView(listOfQrResult)
+            initRecyclerView(listOfQrResult, "All")
         else
             showEmptyState()
     }
 
-    private fun initRecyclerView(listOfQrResult: List<QrResult>) {
+    private fun showFavoriteResults(listOfQrResult: List<QrResult>) {
+        if (listOfQrResult.isNotEmpty())
+            initRecyclerView(listOfQrResult, "favorite")
+        else
+            showEmptyState()
+    }
+
+    private fun initRecyclerView(listOfQrResult: List<QrResult>, text:String) {
         mView.scannedHistoryRecyclerView.layoutManager = LinearLayoutManager(context)
         mView.scannedHistoryRecyclerView.adapter =
-            ScannedResultListAdapter(dbHelperI, requireContext(), listOfQrResult.toMutableList())
+            ScannedResultListAdapter(dbHelperI, requireContext(), listOfQrResult.toMutableList(), text)
         showRecyclerView()
     }
 
